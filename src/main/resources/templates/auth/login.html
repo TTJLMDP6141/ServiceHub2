@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign in | Urban Services</title><link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<main class="container narrow">
+    <div th:replace="~{fragments :: alerts}"></div>
+    <section class="form-card">
+        <span class="eyebrow">Welcome back</span><h1>Sign in to your account</h1>
+        <p class="welcome">Choose the account type registered to your email address.</p>
+        <p class="alert error" th:if="${param.error}">Email or password is incorrect.</p>
+        <p class="alert error" th:if="${param.roleError}">That account does not have the selected account type. Please choose the correct one.</p>
+        <p class="alert" th:if="${param.logout}">You have signed out.</p>
+        <form th:action="@{/login}" method="post">
+            <div class="field"><label for="accountType">Sign in as</label>
+                <select id="accountType" name="accountType">
+                    <option value="CUSTOMER" th:selected="${accountType == 'CUSTOMER'}">Customer</option>
+                    <option value="PROVIDER" th:selected="${accountType == 'PROVIDER'}">Service Provider</option>
+                    <option value="ADMIN" th:selected="${accountType == 'ADMIN'}">Administrator</option>
+                </select>
+            </div>
+            <div class="field"><label for="username">Email</label><input id="username" name="username" type="email" autocomplete="username" required></div>
+            <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
+            <button class="button" type="submit">Sign in</button>
+        </form>
+        <p class="field-hint" style="margin-top:1rem">New here? <a th:href="@{/register}">Create an account</a>.</p>
+        <p class="field-hint">Administrator? <a th:href="@{/login(accountType='ADMIN')}">Go to Admin sign in</a>.</p>
+    </section>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>
